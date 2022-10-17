@@ -1,0 +1,322 @@
+{
+  "levelsFlow": "sync",
+  "tasksFlow": "async",
+  "name": "root",
+  "levels": [
+    {
+      "levelsFlow": "async",
+      "tasksFlow": "async",
+      "name": "root-level1",
+      "levels": [],
+      "delay": 350,
+      "tasks": [
+        {
+          "name": "task1",
+          "actionsFlow": "async",
+          "actions": []
+        },
+        {
+          "name": "task2",
+          "actionsFlow": "async",
+          "actions": []
+        }
+      ]
+    },
+    {
+      "name": "root-level2",
+      "levelsFlow": "async",
+      "tasksFlow": "async",
+      "levels": [
+        {
+          "name": "root-level2-level1",
+          "levelsFlow": "async",
+          "tasksFlow": "async",
+          "levels": [
+            {
+              "levelsFlow": "async",
+              "tasksFlow": "async",
+              "name": "root-level2-level1-level1",
+              "levels": [
+                {
+                  "levelsFlow": "async",
+                  "tasksFlow": "async",
+                  "name": "root-level2-level1-level1-level1",
+                  "levels": [],
+                  "tasks": [
+                    {
+                      "name": "task1",
+                      "actionsFlow": "async",
+                      "actions": []
+                    },
+                    {
+                      "name": "task2",
+                      "actionsFlow": "async",
+                      "actions": []
+                    }
+                  ]
+                },
+                {
+                  "levelsFlow": "async",
+                  "tasksFlow": "async",
+                  "levels": [],
+                  "name": "root-level2-level1-level1-level2",
+                  "tasks": [
+                    {
+                      "name": "root-level2-level1-level1-level2-task1",
+                      "delay": 3000,
+                      "actionsFlow": "async",
+                      "actions": [
+                        {
+                          "name": "action1-task-egor"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "tasks": [
+                {
+                  "name": "root-level2-level1-level1-task1",
+                  "actionsFlow": "async",
+                  "actions": [
+                    {
+                      "name": "action1-root-level2-level1-level1-task1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "tasks": [
+            {
+              "name": "task-egor",
+              "actionsFlow": "async",
+              "actions": [
+                {
+                  "name": "action1-task-egor"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "root-l2-l2",
+          "levelsFlow": "async",
+          "tasksFlow": "async",
+          "levels": [
+            {
+              "levelsFlow": "async",
+              "tasksFlow": "async",
+              "name": "root-l2-l2-l1",
+              "levels": [],
+              "tasks": [
+                {
+                  "name": "task1",
+                  "actionsFlow": "async",
+                  "actions": []
+                },
+                {
+                  "name": "task2",
+                  "actionsFlow": "async",
+                  "actions": []
+                }
+              ]
+            },
+            {
+              "levelsFlow": "async",
+              "tasksFlow": "async",
+              "levels": [],
+              "name": "root-l2-l2-l2",
+              "tasks": [
+                {
+                  "name": "task-egor",
+                  "actionsFlow": "async",
+                  "actions": [
+                    {
+                      "name": "action1-task-egor"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "tasks": [
+            {
+              "name": "task-egor",
+              "actionsFlow": "async",
+              "actions": [
+                {
+                  "name": "action1-root"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tasks": [
+        {
+          "name": "",
+          "actionsFlow": "async",
+          "actions": [
+            {
+              "name": "root-level2-task-egor-action1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "level2",
+      "levelsFlow": "async",
+      "tasksFlow": "async",
+      "levels": [
+        {
+          "name": "level2",
+          "levelsFlow": "async",
+          "tasksFlow": "async",
+          "levels": [
+            {
+              "levelsFlow": "async",
+              "tasksFlow": "async",
+              "name": "root",
+              "levels": [
+                {
+                  "levelsFlow": "async",
+                  "tasksFlow": "async",
+                  "name": "level1",
+                  "levels": [],
+                  "tasks": [
+                    {
+                      "name": "task1",
+                      "actionsFlow": "async",
+                      "actions": []
+                    },
+                    {
+                      "name": "task2",
+                      "actionsFlow": "async",
+                      "actions": []
+                    }
+                  ]
+                },
+                {
+                  "levelsFlow": "async",
+                  "tasksFlow": "async",
+                  "levels": [],
+                  "name": "level2",
+                  "tasks": [
+                    {
+                      "name": "task-egor",
+                      "actionsFlow": "async",
+                      "actions": [
+                        {
+                          "name": "action1-task-egor"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "tasks": [
+                {
+                  "name": "task1-root",
+                  "actionsFlow": "async",
+                  "actions": [
+                    {
+                      "name": "action1-root"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "tasks": [
+            {
+              "name": "task-egor",
+              "actionsFlow": "async",
+              "actions": [
+                {
+                  "name": "action1-task-egor"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "levelsFlow": "async",
+          "tasksFlow": "async",
+          "name": "root",
+          "levels": [
+            {
+              "levelsFlow": "async",
+              "tasksFlow": "async",
+              "name": "level1",
+              "levels": [],
+              "tasks": [
+                {
+                  "name": "task1",
+                  "actionsFlow": "async",
+                  "actions": []
+                },
+                {
+                  "name": "task2",
+                  "actionsFlow": "async",
+                  "actions": []
+                }
+              ]
+            },
+            {
+              "levelsFlow": "async",
+              "tasksFlow": "async",
+              "levels": [],
+              "name": "level2",
+              "tasks": [
+                {
+                  "name": "task-egor",
+                  "actionsFlow": "async",
+                  "actions": [
+                    {
+                      "name": "action1-task-egor"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "tasks": [
+            {
+              "name": "task1-root",
+              "actionsFlow": "async",
+              "actions": [
+                {
+                  "name": "action1-root"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tasks": [
+        {
+          "name": "task-egor",
+          "actionsFlow": "async",
+          "actions": [
+            {
+              "name": "action1-task-egor"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "name": "task1-root",
+      "actionsFlow": "async",
+      "actions": [
+        {
+          "name": "action1-root"
+        }
+      ]
+    }
+  ]
+}

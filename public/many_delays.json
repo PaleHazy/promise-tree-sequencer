@@ -1,0 +1,329 @@
+{
+  "levelsFlow": "async",
+  "tasksFlow": "async",
+  "name": "root",
+  "delay": 1500,
+  "levels": [
+    {
+      "levelsFlow": "async",
+      "tasksFlow": "async",
+      "delay": 7000,
+      "name": "root-level1",
+      "levels": [
+        {
+          "levelsFlow": "async",
+          "tasksFlow": "async",
+          "delay": 7000,
+          "name": "root-level1",
+          "levels": [ {
+            "levelsFlow": "async",
+            "tasksFlow": "async",
+            "delay": 7000,
+            "name": "root-level1",
+            "levels": [],
+            "tasks": [
+              {
+                "name": "root-level1-task1",
+                "actionsFlow": "async",
+                "delay": 1000,
+                "actions": [
+                  {
+                    "name": "root-level1-task1-action1",
+                    "type": "log",
+                    "message": "root-level1-task1-action1"
+                  },
+                  {
+                    "name": "root-level1-task1-action2",
+                    "type": "log",
+                    "message": "root-level1-task1-action2"
+                  }
+                ]
+              },
+              {
+                "name": "root-level2-task2",
+                "actionsFlow": "async",
+                "delay": 3500,
+                "actions": []
+              }
+            ]
+          }],
+          "tasks": [
+            {
+              "name": "root-level1-task1",
+              "actionsFlow": "async",
+              "delay": 1000,
+              "actions": [
+                {
+                  "name": "root-level1-task1-action1",
+                  "type": "log",
+                  "message": "root-level1-task1-action1"
+                },
+                {
+                  "name": "root-level1-task1-action2",
+                  "type": "log",
+                  "message": "root-level1-task1-action2"
+                }
+              ]
+            },
+            {
+              "name": "root-level2-task2",
+              "actionsFlow": "async",
+              "delay": 3500,
+              "actions": []
+            }
+          ]
+        }
+      ],
+      "tasks": [
+        {
+          "name": "root-level1-task1",
+          "actionsFlow": "async",
+          "delay": 1000,
+          "actions": [
+            {
+              "name": "root-level1-task1-action1",
+              "type": "log",
+              "message": "root-level1-task1-action1"
+            },
+            {
+              "name": "root-level1-task1-action2",
+              "type": "log",
+              "message": "root-level1-task1-action2"
+            }
+          ]
+        },
+        {
+          "name": "root-level2-task2",
+          "actionsFlow": "async",
+          "delay": 3500,
+          "actions": []
+        }
+      ]
+    },
+    {
+      "levelsFlow": "async",
+      "tasksFlow": "async",
+      "delay": 25000,
+      "name": "root-level1",
+      "levels": [],
+      "tasks": [
+        {
+          "name": "root-level1-task1",
+          "actionsFlow": "async",
+          "delay": 1000,
+          "actions": [
+            {
+              "name": "root-level1-task1-action1",
+              "type": "log",
+              "message": "root-level1-task1-action1"
+            },
+            {
+              "name": "root-level1-task1-action2",
+              "type": "log",
+              "message": "root-level1-task1-action2"
+            }
+          ]
+        },
+        {
+          "name": "root-level2-task2",
+          "actionsFlow": "async",
+          "delay": 3500,
+          "actions": []
+        }
+      ]
+    },
+    {
+      "levelsFlow": "async",
+      "tasksFlow": "async",
+      "delay": 25000,
+      "name": "root-level1",
+      "levels": [],
+      "tasks": [
+        {
+          "name": "root-level1-task1",
+          "actionsFlow": "async",
+          "delay": 1000,
+          "actions": [
+            {
+              "name": "root-level1-task1-action1",
+              "type": "log",
+              "message": "root-level1-task1-action1"
+            },
+            {
+              "name": "root-level1-task1-action2",
+              "type": "log",
+              "message": "root-level1-task1-action2"
+            }
+          ]
+        },
+        {
+          "name": "root-level2-task2",
+          "actionsFlow": "async",
+          "delay": 3500,
+          "actions": []
+        }
+      ]
+    },
+    {
+      "levelsFlow": "async",
+      "tasksFlow": "async",
+      "delay": 25000,
+      "name": "root-level1",
+      "levels": [],
+      "tasks": [
+        {
+          "name": "root-level1-task1",
+          "actionsFlow": "async",
+          "delay": 1000,
+          "actions": [
+            {
+              "name": "root-level1-task1-action1",
+              "type": "log",
+              "message": "root-level1-task1-action1"
+            },
+            {
+              "name": "root-level1-task1-action2",
+              "type": "log",
+              "message": "root-level1-task1-action2"
+            }
+          ]
+        },
+        {
+          "name": "root-level2-task2",
+          "actionsFlow": "async",
+          "delay": 3500,
+          "actions": []
+        }
+      ]
+    },
+    {
+      "levelsFlow": "async",
+      "tasksFlow": "async",
+      "delay": 25000,
+      "name": "root-level1",
+      "levels": [],
+      "tasks": [
+        {
+          "name": "root-level1-task1",
+          "actionsFlow": "async",
+          "delay": 1000,
+          "actions": [
+            {
+              "name": "root-level1-task1-action1",
+              "type": "log",
+              "message": "root-level1-task1-action1"
+            },
+            {
+              "name": "root-level1-task1-action2",
+              "type": "log",
+              "message": "root-level1-task1-action2"
+            }
+          ]
+        },
+        {
+          "name": "root-level2-task2",
+          "actionsFlow": "async",
+          "delay": 3500,
+          "actions": []
+        }
+      ]
+    },
+    {
+      "levelsFlow": "async",
+      "tasksFlow": "async",
+      "delay": 25000,
+      "name": "root-level1",
+      "levels": [],
+      "tasks": [
+        {
+          "name": "root-level1-task1",
+          "actionsFlow": "async",
+          "delay": 1000,
+          "actions": [
+            {
+              "name": "root-level1-task1-action1",
+              "type": "log",
+              "message": "root-level1-task1-action1"
+            },
+            {
+              "name": "root-level1-task1-action2",
+              "type": "log",
+              "message": "root-level1-task1-action2"
+            }
+          ]
+        },
+        {
+          "name": "root-level2-task2",
+          "actionsFlow": "async",
+          "delay": 3500,
+          "actions": []
+        }
+      ]
+    },
+    {
+      "levelsFlow": "async",
+      "tasksFlow": "async",
+      "delay": 25000,
+      "name": "root-level1",
+      "levels": [],
+      "tasks": [
+        {
+          "name": "root-level1-task1",
+          "actionsFlow": "async",
+          "delay": 1000,
+          "actions": [
+            {
+              "name": "root-level1-task1-action1",
+              "type": "log",
+              "message": "root-level1-task1-action1"
+            },
+            {
+              "name": "root-level1-task1-action2",
+              "type": "log",
+              "message": "root-level1-task1-action2"
+            }
+          ]
+        },
+        {
+          "name": "root-level2-task2",
+          "actionsFlow": "async",
+          "delay": 3500,
+          "actions": []
+        }
+      ]
+    },
+    {
+      "levelsFlow": "async",
+      "tasksFlow": "async",
+      "delay": 25000,
+      "name": "root-level1",
+      "levels": [],
+      "tasks": [
+        {
+          "name": "root-level1-task1",
+          "actionsFlow": "async",
+          "delay": 1000,
+          "actions": [
+            {
+              "name": "root-level1-task1-action1",
+              "type": "log",
+              "message": "root-level1-task1-action1"
+            },
+            {
+              "name": "root-level1-task1-action2",
+              "type": "log",
+              "message": "root-level1-task1-action2"
+            }
+          ]
+        },
+        {
+          "name": "root-level2-task2",
+          "actionsFlow": "async",
+          "delay": 3500,
+          "actions": []
+        }
+      ]
+    }
+  ],
+  "tasks": []
+}

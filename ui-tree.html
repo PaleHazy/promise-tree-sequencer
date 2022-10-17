@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI Tree</title>
+  </head>
+  <body>
+    <div id="container">
+      <div id="tree">
+        <div id="root" class="level">
+          <div class="level-buffer" data-depth="1">
+            <div class="level" >
+              <div class="level-buffer" data-depth="2">
+                <div class="level">
+                  <div class="level-buffer" data-depth="3">
+                    <div class="level">
+                      <div class="level-buffer" data-depth="4"></div>
+                      <div class="task-buffer"></div>
+                    </div>
+                    <div class="level">
+                      <div class="level-buffer" data-depth="4"></div>
+                      <div class="task-buffer"></div>
+                    </div>
+                  </div>
+                  <div class="task-buffer"></div>
+                </div>
+                <div class="level">
+                  <div class="level-buffer" data-depth="3"></div>
+                  <div class="task-buffer"></div>
+                </div>
+                <div class="level">
+                  <div class="level-buffer" data-depth="3"></div>
+                  <div class="task-buffer"></div>
+                </div>
+              </div>
+              <div class="task-buffer"></div>
+            </div>
+            <div class="level">
+              <div class="level-buffer" data-depth="2"></div>
+              <div class="task-buffer"></div>
+            </div>
+            <div class="level">
+              <div class="level-buffer" data-depth="2"></div>
+              <div class="task-buffer"></div>
+            </div>
+            <div class="level"></div>
+            <div class="level"></div>
+            <div class="level"></div>
+            <div class="level"></div>
+            <div class="level"></div>
+            <div class="level"></div>
+            <div class="level"> <div class="level-buffer" data-depth="2">
+              <div class="level">
+                <div class="level-buffer" data-depth="3">
+                  <div class="level">
+                    <div class="level-buffer" data-depth="4"></div>
+                    <div class="task-buffer"></div>
+                  </div>
+                  <div class="level">
+                    <div class="level-buffer" data-depth="4"></div>
+                    <div class="task-buffer"></div>
+                  </div>
+                </div>
+                <div class="task-buffer"></div>
+              </div>
+              <div class="level">
+                <div class="level-buffer" data-depth="3"></div>
+                <div class="task-buffer"></div>
+              </div>
+              <div class="level">
+                <div class="level-buffer" data-depth="3"></div>
+                <div class="task-buffer"></div>
+              </div>
+            </div></div>
+            <div class="level"></div>
+            <div class="level"></div>
+            <div class="level"></div>
+            <div class="level"></div>
+            <div class="level"> <div class="level-buffer" data-depth="2">
+              <div class="level">
+                <div class="level-buffer" data-depth="3">
+                  <div class="level">
+                    <div class="level-buffer" data-depth="4"></div>
+                    <div class="task-buffer"></div>
+                  </div>
+                  <div class="level">
+                    <div class="level-buffer" data-depth="4"></div>
+                    <div class="task-buffer"></div>
+                  </div>
+                </div>
+                <div class="task-buffer"></div>
+              </div>
+              <div class="level">
+                <div class="level-buffer" data-depth="3"></div>
+                <div class="task-buffer"></div>
+              </div>
+              <div class="level">
+                <div class="level-buffer" data-depth="3"></div>
+                <div class="task-buffer"></div>
+              </div>
+            </div></div>
+          </div>
+          <div class="task-buffer">
+            <div class="task"></div>
+            <div class="task"></div>
+            <div class="task">
+              <div class="action-buffer">
+                <div class="action"></div>
+                <div class="action"></div>
+                <div class="action"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <style>
+    body {
+      margin: 0;
+    }
+    #container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      counter-reset: level-buffer-depth;
+    }
+    #tree {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 700px;
+      width: 700px;
+    }
+    #root {
+      background: rgb(110, 207, 220);
+      height: 100%;
+      width: 100%;
+    }
+
+    .level-buffer {
+      height: 100%;
+      width: 100%;
+      display: grid;
+
+      grid-template-columns: repeat(auto-fit, [col] minmax(50px, 1fr));
+      grid-template-rows: repeat(auto-fit, [row] minmax(50px, 1fr));
+      gap: 4px;
+    }
+    .level-buffer[data-depth="1"] .level {
+      background: rgb(205, 127, 93);
+    }
+    .level-buffer[data-depth="2"] .level {
+      background: rgb(205, 196, 93);
+    }
+    .level-buffer[data-depth="3"] .level {
+      background: rgb(205, 93, 93);
+    }
+    .level-buffer[data-depth="4"] .level {
+      background: rgb(93, 205, 155);
+    }
+    .level-buffer[data-depth="5"] .level {
+      background: rgb(93, 140, 205);
+    }
+    .level-buffer[data-depth="6"] .level {
+      background: rgb(173, 93, 205);
+    }
+      
+    .container {
+      height: 100vh;
+    }
+    .level {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</html>
