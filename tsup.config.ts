@@ -10,7 +10,7 @@ export default defineConfig({
   platform: 'browser',
   // external: ['nanoid'],
   noExternal: ['nanoid'],
-  dts : true,
+  dts : false,
   // esbuildOptions(options, {format}) {
   //   if (format === 'esm') {
   //     options.entryPoints = ['src/index.ts']

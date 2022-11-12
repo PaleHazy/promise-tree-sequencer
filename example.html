@@ -111,6 +111,7 @@
       img.style.left = "0";
       return img;
     }
+
     const animationFrameMap = new Map();
     function animateTime(timeEl, levelId) {
       let t = performance.now();
@@ -124,18 +125,9 @@
       cancelAnimationFrame(animationFrameMap.get(levelId));
       animationFrameMap.delete(levelId);
     }
-    fetch(TEST_JSON, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    }).then((res) => {
-      res.json().then((r) => {
-        let t = performance.now();
-        const structureDto = r;
 
-        const rootLevel = new RootLevel(struct, {
-          events: {
+
+    const events = {
             onTaskWaitingForInput: (task, finish) => {
               console.log("onTaskWaitingForInput", task);
               // task.
@@ -197,7 +189,23 @@
               const taskUI = document.getElementById(task.id);
               tasks.removeChild(taskUI);
             },
-          },
+          }
+
+
+
+
+    fetch(TEST_JSON, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    }).then((res) => {
+      res.json().then((r) => {
+        let t = performance.now();
+        const structureDto = r;
+
+        const rootLevel = new RootLevel(struct, {
+          events
         });
         rootLevel.start().then((result) => {
           console.log("tree completely finished in: ", performance.now() - t, result);

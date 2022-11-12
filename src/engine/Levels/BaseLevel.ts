@@ -3,7 +3,7 @@ import { FlowModes, LevelDto, Levels, LevelStatus, Tasks } from "../../interface
 import { isRoot, log, randomContrastColors } from "../../utils";
 import { RootLevel } from "./RootLevel";
 import { nanoid } from "nanoid";
-import { DefaultLevel } from "../../index";
+import { DefaultLevel } from "./Defaultlevel";
 
 // import { DefaultLevel } from "./Defaultlevel";
 export interface Options {

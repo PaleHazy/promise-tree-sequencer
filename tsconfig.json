@@ -18,14 +18,14 @@
     "moduleResolution": "node",
     "isolatedModules": true,
     "types": ["node", "jest"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowJs": true
   },
   "include": [
     "src"
-  ],
+, "src/__tests__"  ],
   "exclude": [
     "node_modules",
-    "dist",
-    "__tests__"
+    "dist"
   ]
 }
