@@ -14,6 +14,7 @@ export abstract class BaseTask {
   actionsPromisesBuffer: Promise<Actions>[] = [];
   taskPromise?: Promise<Tasks>;
   error?: Error | any;
+  externalInput?: boolean;
   readonly delay?: number;
   colors = randomContrastColors()
   readonly id = "t_" + nanoid()
@@ -24,6 +25,7 @@ export abstract class BaseTask {
     this.level = level;
     this.delay = taskDto.delay;
     this.actionsFlow = taskDto.actionsFlow;
+    this.externalInput = taskDto.externalInput;
     this.loadActions(taskDto);
   }
 
@@ -107,6 +109,15 @@ export abstract class BaseTask {
       log(this, "delay done", performance.now() - t, this.delay);
       this.level.root?.events.onTaskFinishDelay?.(this);
     }
+
+    if (this.externalInput) {
+      log(this, "waiting for external input");
+      let waitPromise = new Promise((resolve) => {
+        this.level.root?.events?.onTaskWaitingForInput?.(this, resolve);    
+      });
+      await waitPromise;
+    }
+
     try {
       await this.taskImplemetation();
     } catch(e) {
@@ -117,6 +128,11 @@ export abstract class BaseTask {
     let result = await this._runActions();
     this.setFinished()
     return result
+
+  }
+
+  private async _flush() {
+   
   }
   abstract taskImplemetation(): Promise<void>;
 }
