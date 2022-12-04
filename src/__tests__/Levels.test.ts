@@ -5,17 +5,32 @@ import { touchAllLevels } from "../utils";
 
 jest.setTimeout(100000);
 
-let rootLevel = new DefaultLevel(json as any, {});
 
-beforeAll(async () => {
-  // run a global engine setup
-  await rootLevel.start();
-});
 
 test("the level has a finished status when done", async () => {
-  expect(rootLevel.status).toBe("finished");
+  const dataLevel = {
+    levelsFlow: "async",
+    tasksFlow: "async",
+    name: "root",
+    delay: 0,
+    levels: [
+      {
+        levelsFlow: "async",
+        tasksFlow: "sync",
+        delay: 0,
+        name: "root-level1",
+        levels: [],
+        tasks: [],
+      },
+    ],
+    tasks: [],
+  };
 
-  touchAllLevels(rootLevel, (level) => {
+  const level = new DefaultLevel(dataLevel as any, {});
+  await level.start()
+  expect(level.status).toBe("finished");
+
+  touchAllLevels(level, (level) => {
     expect(level.status).toBe("finished");
 
     level.taskBuffer.forEach((task) => {
@@ -25,42 +40,60 @@ test("the level has a finished status when done", async () => {
 });
 
 test("status is running right the start", async () => {
-  const rootLevel = new DefaultLevel(json as any, {});
+  const dataLevel = {
+    levelsFlow: "async",
+    tasksFlow: "async",
+    name: "root",
+    delay: 0,
+    levels: [
+      {
+        levelsFlow: "async",
+        tasksFlow: "sync",
+        delay: 0,
+        name: "root-level1",
+        levels: [],
+        tasks: [],
+      },
+    ],
+    tasks: [],
+  };
+  const rootLevel = new DefaultLevel(dataLevel as any, {});
   const p = rootLevel.start();
   expect(rootLevel.status).toBe("running");
+
   await p;
 });
 
-const level = {
-  levelsFlow: "async",
-  tasksFlow: "async",
-  name: "root",
-  delay: 0,
-  levels: [
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 5000,
-      name: "root-level1",
-      levels: [],
-      tasks: [],
-    },
-  ],
-  tasks: [],
-};
-
 test("level delays appropriate time", async () => {
+  const dataLevel = {
+    levelsFlow: "async",
+    tasksFlow: "async",
+    name: "root",
+    delay: 0,
+    levels: [
+      {
+        levelsFlow: "async", 
+        tasksFlow: "sync",
+        delay: 1500,
+        name: "root-level1",
+        levels: [],
+        tasks: [],
+      },
+    ],
+    tasks: [],
+  };
+
   let time = performance.now();
-  const rootLevel = new RootLevel(level as any, {
+  const rootLevel = new RootLevel(dataLevel as any, {
     events: {
       onLevelStartDelay(level) {
         time = performance.now();
         expect(level.status).toBe("running");
       },
       onLevelFinishDelay(level) {
-        expect(performance.now() - time).toBeGreaterThan(5000);
+        expect(performance.now() - time).toBeGreaterThan(dataLevel.levels[0].delay);
         expect(level.status).toBe("running");
-      }
+      },
     },
   });
   const p = rootLevel.start();
