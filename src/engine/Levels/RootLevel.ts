@@ -5,21 +5,22 @@ import { DefaultLevel } from "./Defaultlevel";
 
 interface RootOptions {
   events: {
-    onTaskWaitingForInput?: (task: Tasks) => void;
+    onTaskWaitingForInput?: (task: Tasks, complete: (val: unknown) => void) => void;
     onLevelStarted?: (level: Levels) => void;
     onLevelStartDelay?: (level: Levels) => void;
     onLevelFinishDelay?: (level: Levels) => void;
     onLevelFinished?: (level: Levels) => void;
     onTaskStarted?: (task: Tasks) => void;
     onTaskStartDelay?: (task: Tasks) => void;
+    onTaskPaused?: (task: Tasks) => void;
+    onTaskResumed?: (task: Tasks) => void;
     onTaskFinishDelay?: (task: Tasks) => void;
     onTaskFinished?: (task: Tasks) => void;
-  }
-  
+  };
 }
 
 export class RootLevel extends DefaultLevel {
-  events: RootOptions['events'] = {
+  events: RootOptions["events"] = {
     onTaskWaitingForInput: () => {},
     onLevelStarted: () => {},
     onLevelStartDelay: () => {},

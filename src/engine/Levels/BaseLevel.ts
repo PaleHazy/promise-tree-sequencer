@@ -1,6 +1,6 @@
-import { DefaultTask } from "../../engine/Tasks/DefaultTask";
+import { DefaultTask } from "../Tasks/DefaultTask";
 import { FlowModes, LevelDto, Levels, LevelStatus, Tasks } from "../../interfaces";
-import { isRoot, log, randomContrastColors } from "../../utils";
+import { isRoot, log, randomContrastColors, touchAllLevels } from "../../utils";
 import { RootLevel } from "./RootLevel";
 import { nanoid } from "nanoid";
 import { DefaultLevel } from "./Defaultlevel";
@@ -172,17 +172,15 @@ export abstract class BaseLevel {
       const actions = await task.start();
     }
   }
+
+  togglePause() {
+    if (this.status === "paused") {
+      touchAllLevels(this, (level) => {
+
+        level.status = "running";
+      });
+    } else if (this.status === "running") {
+      this.status = "paused";
+    }
+  }
 }
-
-//have to put it in here cause bundle messes up
-
-// export class DefaultLevel extends BaseLevel {
-
-//   constructor(dto: LevelDto, options: Options) {
-//     super(dto, options);
-//   }
-
-//   public async start(): Promise<Levels> {
-//     return this.flush();
-//   }
-// }

@@ -1,4 +1,4 @@
-import { BaseLevel, Options } from "../../engine/Levels/BaseLevel";
+import { BaseLevel, Options } from "./BaseLevel";
 import { LevelDto } from "../../interfaces";
 
 export class DefaultLevel extends BaseLevel {

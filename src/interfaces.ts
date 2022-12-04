@@ -4,7 +4,6 @@ import { DefaultLevel } from "./engine/Levels/Defaultlevel";
 import { RootLevel } from "./engine/Levels/RootLevel";
 import { BaseTask } from "./engine/Tasks/BaseTask";
 import { DefaultTask } from "./engine/Tasks/DefaultTask";
-import { ExternalInputTask } from "./engine/Tasks/ExternalInputTask";
 
 
 export type FlowModes = "async" | "sync";
@@ -16,8 +15,8 @@ export type FlowModes = "async" | "sync";
  * finished - level finished succesfully
  * 
  */
-export type LevelStatus = "ready" | "running" | "paused" | "finished" | "cancelled";
-export type TaskStatus = "ready" | "running" | "paused" | "finished" | "cancelled"  | "failed";
+export type LevelStatus = "ready" | "running" | "paused" | "finished" | "cancelled" | "failed";
+export type TaskStatus = "ready" | "running" | "waiting" | "delaying" | "paused" | "finished" | "cancelled"  | "failed";
 export type ActionStatus = "ready" | "running" | "paused" | "finished" | "cancelled" | "failed";
 export interface LevelDto {
   levelsFlow: FlowModes;
@@ -31,6 +30,7 @@ export interface TaskDto {
   name: string;
   type: string;
   actionsFlow: FlowModes;
+  externalInput?: boolean;
   actions: ActionDto[];
   delay?: number;
 }
@@ -41,5 +41,5 @@ export interface ActionDto {
 // --------------------------------------
 
 export type Levels = BaseLevel | RootLevel | DefaultLevel
-export type Tasks = DefaultTask | BaseTask |  ExternalInputTask
+export type Tasks = DefaultTask | BaseTask 
 export type Actions = DefaultAction
