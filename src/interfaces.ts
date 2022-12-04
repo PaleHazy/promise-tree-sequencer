@@ -15,8 +15,8 @@ export type FlowModes = "async" | "sync";
  * finished - level finished succesfully
  * 
  */
-export type LevelStatus = "ready" | "running" | "paused" | "finished" | "cancelled";
-export type TaskStatus = "ready" | "running" | "paused" | "finished" | "cancelled"  | "failed";
+export type LevelStatus = "ready" | "running" | "paused" | "finished" | "cancelled" | "failed";
+export type TaskStatus = "ready" | "running" | "waiting" | "delaying" | "paused" | "finished" | "cancelled"  | "failed";
 export type ActionStatus = "ready" | "running" | "paused" | "finished" | "cancelled" | "failed";
 export interface LevelDto {
   levelsFlow: FlowModes;

@@ -12,6 +12,8 @@ interface RootOptions {
     onLevelFinished?: (level: Levels) => void;
     onTaskStarted?: (task: Tasks) => void;
     onTaskStartDelay?: (task: Tasks) => void;
+    onTaskPaused?: (task: Tasks) => void;
+    onTaskResumed?: (task: Tasks) => void;
     onTaskFinishDelay?: (task: Tasks) => void;
     onTaskFinished?: (task: Tasks) => void;
   };

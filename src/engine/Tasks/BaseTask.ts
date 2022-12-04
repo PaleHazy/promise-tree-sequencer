@@ -18,6 +18,8 @@ export abstract class BaseTask {
   readonly delay?: number;
   colors = randomContrastColors()
   readonly id = "t_" + nanoid()
+  private delayTimeout: number | NodeJS.Timeout = 0;
+  private delayResolve: (value: Tasks) => void = () => {};
   taskResolve: (value: Tasks) => void = () => {};
   taskReject: (reason?: any) => void = () => {};
   constructor(taskDto: TaskDto, level: BaseLevel) {
@@ -29,6 +31,33 @@ export abstract class BaseTask {
     this.loadActions(taskDto);
   }
 
+
+  pause() {
+    if(this.status === "running") {
+      this.status = "paused"
+      this.level.root?.events.onTaskPaused?.(this);
+      clearTimeout(this.delayTimeout);
+    } else {
+
+    }
+  }
+
+  resume() {
+    if(this.status === "paused") {
+      this.status = "running"
+      this.level.root?.events.onTaskResumed?.(this);
+      const remainingDelay = 200
+      this.delayTimeout = setTimeout(() => {
+        
+
+      
+      }, )
+      this.delayResolve(this);
+    } else {
+  
+    }
+  }
+  
   loadActions(taskDto: TaskDto) {
     for (const action of taskDto.actions) {
       this.actions.push(new DefaultAction(action, this));
@@ -36,7 +65,6 @@ export abstract class BaseTask {
   }
 
   _runActionsAsync(): Promise<Tasks> {
-    this.status = "running";
     this.taskPromise = new Promise((resolve, reject) => {
       //run custom logic here
       this.actionsPromisesBuffer = this.actions.map((action) => action.run());
@@ -79,7 +107,14 @@ export abstract class BaseTask {
   }
 
   private _delay() {
-    return new Promise((resolve) => setTimeout(resolve, this.delay));
+    return new Promise((resolve) => {
+      this.status = "delaying";
+      this.delayResolve = resolve;
+      this.delayTimeout = setTimeout(() => {
+        this.delayResolve(this);
+        this.status = "running";
+      }, this.delay)
+    });
   }
 
   protected setStarting() {
@@ -113,6 +148,7 @@ export abstract class BaseTask {
     if (this.externalInput) {
       log(this, "waiting for external input");
       let waitPromise = new Promise((resolve) => {
+        this.status = "waiting";
         this.level.root?.events?.onTaskWaitingForInput?.(this, resolve);    
       });
       await waitPromise;
@@ -129,10 +165,6 @@ export abstract class BaseTask {
     this.setFinished()
     return result
 
-  }
-
-  private async _flush() {
-   
   }
   abstract taskImplemetation(): Promise<void>;
 }
