@@ -12,3 +12,5 @@ export const LEVEL_RUNNING_STATE = "running";
  * 
  */
 export const LEVEL_PAUSED_STATE = "paused";
+
+export const LEVEL_DELAY_STATE = "delaying";

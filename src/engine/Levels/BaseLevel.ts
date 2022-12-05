@@ -80,6 +80,7 @@ export abstract class BaseLevel {
   }
 
   private async _delay(delay: number = this.delay.value) {
+    this.status = "delaying";
     log(this, "delaying for", delay);
     this.delay.start = performance.now();
     this.root?.events.onLevelStartDelay?.(this);
