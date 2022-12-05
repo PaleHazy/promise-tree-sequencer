@@ -6,7 +6,7 @@ import { Actions, Levels, Tasks } from "./interfaces";
 export function isRoot(level: BaseLevel) {
   return level.root === level;
 }
-
+const LOG = false;
 function logLvl(node: Levels) {
   const lt = `%c[Level]: ${node.name}\n`
   const lc = `color: ${node.colors.color}; background: ${node.colors.bg};`
@@ -23,6 +23,10 @@ function logAction(node: Actions) {
   return {ac, at}
 }
 export function log(node: Levels | Tasks | Actions, ...args: any[]) {
+  if(!LOG) {
+    return;
+  }
+
   if (node instanceof BaseLevel) {
      const {lc,lt} = logLvl(node);
      console.log(

@@ -8,6 +8,8 @@ interface RootOptions {
     onTaskWaitingForInput?: (task: Tasks, complete: (val: unknown) => void) => void;
     onLevelStarted?: (level: Levels) => void;
     onLevelStartDelay?: (level: Levels) => void;
+    onLevelPaused?: (level: Levels) => void;
+    onLevelResumed?: (level: Levels) => void;
     onLevelFinishDelay?: (level: Levels) => void;
     onLevelFinished?: (level: Levels) => void;
     onTaskStarted?: (task: Tasks) => void;
@@ -24,6 +26,8 @@ export class RootLevel extends DefaultLevel {
     onTaskWaitingForInput: () => {},
     onLevelStarted: () => {},
     onLevelStartDelay: () => {},
+    onLevelPaused: () => {},
+    onLevelResumed: () => {},
     onLevelFinishDelay: () => {},
     onLevelFinished: () => {},
     onTaskStarted: () => {},
@@ -31,7 +35,6 @@ export class RootLevel extends DefaultLevel {
     onTaskFinishDelay: () => {},
     onTaskFinished: () => {},
   };
-
   constructor(dto: LevelDto, options: Options & RootOptions) {
     super(dto, options);
     touchAllLevels(this, (level) => {
@@ -72,5 +75,17 @@ export class RootLevel extends DefaultLevel {
       ...this.events,
       ...events,
     };
+  }
+
+  pauseAll() {
+    touchAllLevels(this, (level) => {
+      level.pause();
+    });
+  }
+
+  resumeAll() {
+    touchAllLevels(this, (level) => {
+      level.resume();
+    });
   }
 }

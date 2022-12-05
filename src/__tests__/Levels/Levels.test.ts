@@ -1,14 +1,18 @@
+import { nextTick } from "process";
 import { BaseLevel } from "../../engine/Levels/BaseLevel";
 import { DefaultLevel } from "../../engine/Levels/Defaultlevel";
 import { RootLevel } from "../../engine/Levels/RootLevel";
 import { touchAllLevels } from "../../utils";
-import { one_level, three_levels_250_delay } from "../test_levels";
+import {
+  async_one_level_with_delay,
+  async_three_levels_250_delay,
+  sync_three_levels_250_delay,
+} from "../../utils/test_levels";
 
 jest.setTimeout(100000);
 
 test.concurrent("the level has a finished status when done", async () => {
-
-  const rootLevel = new DefaultLevel(one_level as any, {});
+  const rootLevel = new DefaultLevel(async_one_level_with_delay as any, {});
   await rootLevel.start();
   expect(rootLevel.status).toBe("finished");
 
@@ -22,8 +26,7 @@ test.concurrent("the level has a finished status when done", async () => {
 });
 
 test.concurrent("status is running right the start", async () => {
-
-  const rootLevel = new DefaultLevel(one_level as any, {});
+  const rootLevel = new DefaultLevel(async_one_level_with_delay as any, {});
   const p = rootLevel.start();
   expect(rootLevel.status).toBe("running");
 
@@ -31,19 +34,20 @@ test.concurrent("status is running right the start", async () => {
 });
 
 test.concurrent("level delays appropriate time", async () => {
-
   let time = performance.now();
-  const rootLevel = new RootLevel(one_level as any, {
+  const rootLevel = new RootLevel(async_one_level_with_delay as any, {
     events: {
       onLevelStartDelay(level) {
-        if (level.name === one_level.levels[0].name) {
+        if (level.name === async_one_level_with_delay.levels[0].name) {
           time = performance.now();
           expect(level.status).toBe("running");
         }
       },
       onLevelFinishDelay(level) {
-        if (level.name === one_level.levels[0].name) {
-          expect(performance.now() - time).toBeGreaterThanOrEqual(one_level.levels[0].delay);
+        if (level.name === async_one_level_with_delay.levels[0].name) {
+          expect(performance.now() - time).toBeGreaterThanOrEqual(
+            async_one_level_with_delay.levels[0].delay
+          );
           expect(level.status).toBe("running");
         }
       },
@@ -54,78 +58,68 @@ test.concurrent("level delays appropriate time", async () => {
 });
 
 test.concurrent("async level flow starts all nested levels immediately", async () => {
-  
   let time = performance.now();
-  const rootLevel = new RootLevel(three_levels_250_delay as any, {
+  const rootLevel = new RootLevel(async_three_levels_250_delay as any, {
     events: {
-      onLevelStartDelay(level) {
-  
-      },
-      onLevelFinishDelay(level) {
-        
+      onLevelStarted(level) {
+        expect(level.status).toBe("running");
       },
     },
   });
 
   const p = rootLevel.start();
-  
+  expect(rootLevel.status).toBe("running");
+
   expect(rootLevel.levelBuffer[0].status).toBe("running");
   expect(rootLevel.levelBuffer[1].status).toBe("running");
   expect(rootLevel.levelBuffer[2].status).toBe("running");
-  
+
   await p;
 });
-test.concurrent("sync level flow starts nested levels one after the other", async () => {
 
+test.concurrent("level with delay is delayed with minimal (5ms) sway", async () => {
   let time = performance.now();
-  const rootLevel = new RootLevel(three_levels_250_delay as any, {
+  const rootLevel = new RootLevel(async_one_level_with_delay as any, {
+    events: {
+      onLevelFinishDelay(level) {
+        console.log(level.name);
+        console.log(level.delay.duration);
+        console.log(level.delay.sway);
+        expect(level.delay.duration).toBeGreaterThanOrEqual(5000);
+      },
+    },
+  });
+  const p = rootLevel.start();
+  await p;
+});
+
+test.concurrent("sync level flow starts nested levels one after the other", async () => {
+  let time = performance.now();
+  const rootLevel = new RootLevel(sync_three_levels_250_delay as any, {
     events: {
       onLevelStarted(level) {
         switch (level.name) {
-          case three_levels_250_delay.levels[0].name:
+          case sync_three_levels_250_delay.levels[0].name:
             expect(rootLevel.levelBuffer[0].status).toBe("running");
             expect(rootLevel.levelBuffer[1].status).toBe("ready");
             expect(rootLevel.levelBuffer[2].status).toBe("ready");
             break;
-          case three_levels_250_delay.levels[1].name:
+          case sync_three_levels_250_delay.levels[1].name:
             expect(rootLevel.levelBuffer[0].status).toBe("finished");
             expect(rootLevel.levelBuffer[1].status).toBe("running");
             expect(rootLevel.levelBuffer[2].status).toBe("ready");
             break;
-          case three_levels_250_delay.levels[2].name:
+          case sync_three_levels_250_delay.levels[2].name:
             expect(rootLevel.levelBuffer[0].status).toBe("finished");
             expect(rootLevel.levelBuffer[1].status).toBe("finished");
             expect(rootLevel.levelBuffer[2].status).toBe("running");
         }
       },
-      onLevelFinishDelay(level) {
-        
-      },
+      onLevelFinishDelay(level) {},
     },
   });
 
   const p = rootLevel.start();
 
-  
-  await p;
-});
-
-test.concurrent("pausing tree while running", async () => {
-  
-  let time = performance.now();
-  const rootLevel = new RootLevel(three_levels_250_delay as any, {
-    events: {
-      onLevelStarted(level) {
-        
-      },
-      onLevelFinishDelay(level) {
-        
-      },
-    },
-  });
-
-  const p = rootLevel.start();
-
-  
   await p;
 });
