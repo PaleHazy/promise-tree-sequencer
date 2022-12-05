@@ -4,6 +4,7 @@ import { DefaultLevel } from "./engine/Levels/Defaultlevel";
 import { RootLevel } from "./engine/Levels/RootLevel";
 import { BaseTask } from "./engine/Tasks/BaseTask";
 import { DefaultTask } from "./engine/Tasks/DefaultTask";
+import { LEVEL_PAUSED_STATE, LEVEL_RUNNING_STATE } from "./utils/constants";
 
 
 export type FlowModes = "async" | "sync";
@@ -15,7 +16,7 @@ export type FlowModes = "async" | "sync";
  * finished - level finished succesfully
  * 
  */
-export type LevelStatus = "ready" | "running" | "paused" | "finished" | "cancelled" | "failed";
+export type LevelStatus = "ready" | typeof LEVEL_RUNNING_STATE | "delaying" | typeof LEVEL_PAUSED_STATE | "finished" | "cancelled" | "failed";
 export type TaskStatus = "ready" | "running" | "waiting" | "delaying" | "paused" | "finished" | "cancelled"  | "failed";
 export type ActionStatus = "ready" | "running" | "paused" | "finished" | "cancelled" | "failed";
 export interface LevelDto {

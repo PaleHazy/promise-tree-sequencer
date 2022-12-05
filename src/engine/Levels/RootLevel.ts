@@ -49,6 +49,12 @@ export class RootLevel extends DefaultLevel {
     if (options.events.onLevelStartDelay) {
       this.events.onLevelStartDelay = options.events.onLevelStartDelay;
     }
+    if (options.events.onLevelPaused) {
+      this.events.onLevelPaused = options.events.onLevelPaused;
+    }
+    if (options.events.onLevelResumed) {
+      this.events.onLevelResumed = options.events.onLevelResumed;
+    }
     if (options.events.onLevelFinishDelay) {
       this.events.onLevelFinishDelay = options.events.onLevelFinishDelay;
     }

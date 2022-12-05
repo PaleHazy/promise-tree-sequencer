@@ -3,6 +3,7 @@ import { BaseLevel } from "../../engine/Levels/BaseLevel";
 import { DefaultLevel } from "../../engine/Levels/Defaultlevel";
 import { RootLevel } from "../../engine/Levels/RootLevel";
 import { touchAllLevels } from "../../utils";
+import { LEVEL_RUNNING_STATE } from "../../utils/constants";
 import {
   async_one_level_with_delay,
   async_three_levels_250_delay,
@@ -28,7 +29,7 @@ test.concurrent("the level has a finished status when done", async () => {
 test.concurrent("status is running right the start", async () => {
   const rootLevel = new DefaultLevel(async_one_level_with_delay as any, {});
   const p = rootLevel.start();
-  expect(rootLevel.status).toBe("running");
+  expect(rootLevel.status).toBe(LEVEL_RUNNING_STATE);
 
   await p;
 });
@@ -40,7 +41,7 @@ test.concurrent("level delays appropriate time", async () => {
       onLevelStartDelay(level) {
         if (level.name === async_one_level_with_delay.levels[0].name) {
           time = performance.now();
-          expect(level.status).toBe("running");
+          expect(level.status).toBe(LEVEL_RUNNING_STATE);
         }
       },
       onLevelFinishDelay(level) {
@@ -48,7 +49,7 @@ test.concurrent("level delays appropriate time", async () => {
           expect(performance.now() - time).toBeGreaterThanOrEqual(
             async_one_level_with_delay.levels[0].delay
           );
-          expect(level.status).toBe("running");
+          expect(level.status).toBe(LEVEL_RUNNING_STATE);
         }
       },
     },
@@ -62,17 +63,17 @@ test.concurrent("async level flow starts all nested levels immediately", async (
   const rootLevel = new RootLevel(async_three_levels_250_delay as any, {
     events: {
       onLevelStarted(level) {
-        expect(level.status).toBe("running");
+        expect(level.status).toBe(LEVEL_RUNNING_STATE);
       },
     },
   });
 
   const p = rootLevel.start();
-  expect(rootLevel.status).toBe("running");
+  expect(rootLevel.status).toBe(LEVEL_RUNNING_STATE);
 
-  expect(rootLevel.levelBuffer[0].status).toBe("running");
-  expect(rootLevel.levelBuffer[1].status).toBe("running");
-  expect(rootLevel.levelBuffer[2].status).toBe("running");
+  expect(rootLevel.levelBuffer[0].status).toBe(LEVEL_RUNNING_STATE);
+  expect(rootLevel.levelBuffer[1].status).toBe(LEVEL_RUNNING_STATE);
+  expect(rootLevel.levelBuffer[2].status).toBe(LEVEL_RUNNING_STATE);
 
   await p;
 });
@@ -82,10 +83,7 @@ test.concurrent("level with delay is delayed with minimal (5ms) sway", async () 
   const rootLevel = new RootLevel(async_one_level_with_delay as any, {
     events: {
       onLevelFinishDelay(level) {
-        console.log(level.name);
-        console.log(level.delay.duration);
-        console.log(level.delay.sway);
-        expect(level.delay.duration).toBeGreaterThanOrEqual(5000);
+        expect(level.delay.duration).toBeGreaterThanOrEqual(async_one_level_with_delay.levels[0].delay);
       },
     },
   });
@@ -100,19 +98,19 @@ test.concurrent("sync level flow starts nested levels one after the other", asyn
       onLevelStarted(level) {
         switch (level.name) {
           case sync_three_levels_250_delay.levels[0].name:
-            expect(rootLevel.levelBuffer[0].status).toBe("running");
+            expect(rootLevel.levelBuffer[0].status).toBe(LEVEL_RUNNING_STATE);
             expect(rootLevel.levelBuffer[1].status).toBe("ready");
             expect(rootLevel.levelBuffer[2].status).toBe("ready");
             break;
           case sync_three_levels_250_delay.levels[1].name:
             expect(rootLevel.levelBuffer[0].status).toBe("finished");
-            expect(rootLevel.levelBuffer[1].status).toBe("running");
+            expect(rootLevel.levelBuffer[1].status).toBe(LEVEL_RUNNING_STATE);
             expect(rootLevel.levelBuffer[2].status).toBe("ready");
             break;
           case sync_three_levels_250_delay.levels[2].name:
             expect(rootLevel.levelBuffer[0].status).toBe("finished");
             expect(rootLevel.levelBuffer[1].status).toBe("finished");
-            expect(rootLevel.levelBuffer[2].status).toBe("running");
+            expect(rootLevel.levelBuffer[2].status).toBe(LEVEL_RUNNING_STATE);
         }
       },
       onLevelFinishDelay(level) {},

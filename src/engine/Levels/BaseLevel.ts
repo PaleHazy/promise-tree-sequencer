@@ -19,6 +19,7 @@ interface LevelDelay {
   finish?: number;
   sway?: number;
   duration?: number;
+  totalDuration: number;
   timeoutId?: number | NodeJS.Timeout;
   delayPromise?: Promise<void>;
   delayPromiseResolve?: (val: any) => void;
@@ -39,6 +40,7 @@ export abstract class BaseLevel {
   private _startTime: number = 0;
   delay: LevelDelay = {
     value: 0,
+    totalDuration: 0,
   }
   readonly colors = randomContrastColors();
   readonly id = "l_" + nanoid();
@@ -79,7 +81,6 @@ export abstract class BaseLevel {
 
   private async _delay(delay: number = this.delay.value) {
     log(this, "delaying for", delay);
-    
     this.delay.start = performance.now();
     this.root?.events.onLevelStartDelay?.(this);
 
@@ -90,11 +91,13 @@ export abstract class BaseLevel {
     await this.delay.delayPromise;
     this.delay.finish = performance.now();
     this.delay.duration = this.delay.finish - this.delay.start;
+    this.delay.totalDuration += this.delay.duration;
     this.delay.sway = this.delay.duration - delay;
-    this.delay.delayPromise = undefined;
-    this.delay.delayPromiseResolve = undefined;
-
-    log(this, "delayed for", this.delay.finish - this.delay.start, delay);
+    this.delay.delayPromise = undefined; // clean
+    this.delay.delayPromiseResolve = undefined; // clean
+    this.delay.timeoutId = undefined; // clean
+    this.status = LEVEL_RUNNING_STATE;
+    log(this, "delayed for", this.delay.totalDuration, delay);
     this.root?.events.onLevelFinishDelay?.(this);
   }
 
@@ -208,7 +211,7 @@ export abstract class BaseLevel {
   togglePause() {
     if (this.status === LEVEL_PAUSED_STATE) {
       this.resume();
-    } else if (this.status === "running") {
+    } else if (this.status === LEVEL_RUNNING_STATE) {
       this.pause();
     }
   }
@@ -226,22 +229,21 @@ export abstract class BaseLevel {
     this.status = LEVEL_PAUSED_STATE;
 
 
-    if (this.delay) {
+    if (this.delay.value) {
       log(this, "clearing timeout");
       clearTimeout(this.delay.timeoutId);
       // store the remaining time
       this.delay.value = calculateNewDelay(this.delay);
-      
+      this.delay.duration = performance.now() - this.delay.start!
+      this.delay.totalDuration += this.delay.duration
     }
-
+    
     this.taskBuffer.forEach((task) => {
       task.pause();
     });
 
     
     this.root?.events.onLevelPaused?.(this);
-
-    const time = performance.now();
   }
 
   resume() {
@@ -252,12 +254,19 @@ export abstract class BaseLevel {
 
     this.status = LEVEL_RUNNING_STATE;
 
-    
-    this.delay.timeoutId = setTimeout(() => {
-      this.delay.delayPromiseResolve?.('');
-    }, this.delay.value);
+    if (this.delay.value) {
+      // reset start time 
+      this.delay.start = performance.now();
+      this.delay.timeoutId = setTimeout(() => {
+        this.delay.delayPromiseResolve?.('');
+      }, this.delay.value);
+    }
 
-    this.root?.events.onLevelResumed?.(this);
+    this.taskBuffer.forEach((task) => {
+      task.resume();
+    });
+
+      this.root?.events.onLevelResumed?.(this);
   }
 }
 
