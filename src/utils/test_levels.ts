@@ -1,17 +1,31 @@
+import { nanoid } from "nanoid";
+import { LevelDto } from "../interfaces";
+let counter = 0;
+const level= {
+  levelsFlow: "async",
+  tasksFlow: "sync",
+  delay: 0,
+  name: "root-level1",
+  levels: [],
+  tasks: [],
+}
+
+const level_with_delay = (delay=250): LevelDto => ({
+  levelsFlow: "async",
+  tasksFlow: "sync",
+  delay,
+  name: nanoid(),
+  levels: [],
+  tasks: [],
+})
+
 export const async_one_level_with_delay = {
   levelsFlow: "async",
   tasksFlow: "async",
   name: "root",
   delay: 0,
   levels: [
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 5000,
-      name: "root-level1",
-      levels: [],
-      tasks: [],
-    },
+    level_with_delay(5000)
   ],
   tasks: [],
 };
@@ -21,14 +35,7 @@ export const async_one_level = {
   name: "root",
   delay: 0,
   levels: [
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 0,
-      name: "root-level1",
-      levels: [],
-      tasks: [],
-    },
+    level
   ],
   tasks: [],
 };
@@ -39,30 +46,9 @@ export const async_three_levels_250_delay = {
   name: "root",
   delay: 0,
   levels: [
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 250,
-      name: "root-level1",
-      levels: [],
-      tasks: [],
-    },
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 250,
-      name: "root-level2",
-      levels: [],
-      tasks: [],
-    },
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 250,
-      name: "root-level3",
-      levels: [],
-      tasks: [],
-    },
+    level_with_delay(),
+    level_with_delay(),
+    level_with_delay(),
   ],
   tasks: [],
 };
@@ -72,30 +58,9 @@ export const async_three_levels = {
   name: "root",
   delay: 0,
   levels: [
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 0,
-      name: "root-level1",
-      levels: [],
-      tasks: [],
-    },
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 0,
-      name: "root-level2",
-      levels: [],
-      tasks: [],
-    },
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 0,
-      name: "root-level3",
-      levels: [],
-      tasks: [],
-    },
+    level,
+    level,
+    level
   ],
   tasks: [],
 };
@@ -106,30 +71,9 @@ export const sync_three_levels_250_delay = {
   name: "root",
   delay: 0,
   levels: [
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 250,
-      name: "root-level1",
-      levels: [],
-      tasks: [],
-    },
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 250,
-      name: "root-level2",
-      levels: [],
-      tasks: [],
-    },
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 250,
-      name: "root-level3",
-      levels: [],
-      tasks: [],
-    },
+    level_with_delay(),
+    level_with_delay(),
+    level_with_delay(),
   ],
   tasks: [],
 };
@@ -139,30 +83,9 @@ export const sync_three_levels = {
   name: "root",
   delay: 0,
   levels: [
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 250,
-      name: "root-level1",
-      levels: [],
-      tasks: [],
-    },
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 250,
-      name: "root-level2",
-      levels: [],
-      tasks: [],
-    },
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 250,
-      name: "root-level3",
-      levels: [],
-      tasks: [],
-    },
+    level_with_delay(),
+    level_with_delay(),
+    level_with_delay(),
   ],
   tasks: [],
 };
@@ -173,56 +96,10 @@ export const many_concurrent_different_delays = {
   name: "root",
   delay: 0,
   levels: [
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 250,
-      name: "root-level1",
-      levels: [],
-      tasks: [],
-    },
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 500,
-      name: "root-level2",
-      levels: [],
-      tasks: [],
-    },
-    {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 750,
-      name: "root-level3",
-      levels: [],
-      tasks: [],
-    },
-     {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 1000,
-      name: "root-level4",
-      levels: [], 
-      tasks: [],
-     },
-     
-     {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 1500,
-      name: "root-level5",
-      levels: [], 
-      tasks: [],
-     },
-     {
-      levelsFlow: "async",
-      tasksFlow: "sync",
-      delay: 2000,
-      name: "root-level6",
-      levels: [], 
-      tasks: [],
-     },
-
+    level_with_delay(250),
+    level_with_delay(500),
+    level_with_delay(1000),
+    level_with_delay(2000),
   ],
   tasks: [],
 };
