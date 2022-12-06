@@ -10,7 +10,7 @@ const level= {
   tasks: [],
 }
 
-const level_with_delay = (delay=250): LevelDto => ({
+const level_with_delay = (delay:number=250): LevelDto => ({
   levelsFlow: "async",
   tasksFlow: "sync",
   delay,

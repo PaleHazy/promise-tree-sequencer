@@ -4,6 +4,17 @@ import { Actions, FlowModes, TaskDto, Tasks, TaskStatus } from "../../interfaces
 import { nanoid } from "nanoid";
 import { log, randomContrastColors } from "../../utils";
 
+interface TaskDelay {
+  value: number;
+  start?: number;
+  finish?: number;
+  sway?: number;
+  duration?: number;
+  totalDuration: number;
+  timeoutId?: number | NodeJS.Timeout;
+  delayPromise?: Promise<void>;
+  delayPromiseResolve?: (val: any) => void;
+}
 // previously action
 export abstract class BaseTask {
   level: BaseLevel;
@@ -15,17 +26,19 @@ export abstract class BaseTask {
   taskPromise?: Promise<Tasks>;
   error?: Error | any;
   externalInput?: boolean;
-  readonly delay?: number;
+  delay: TaskDelay = {
+    value: 0,
+    totalDuration: 0,
+  };
   colors = randomContrastColors()
   readonly id = "t_" + nanoid()
-  private delayTimeout: number | NodeJS.Timeout = 0;
-  private delayResolve: (value: Tasks) => void = () => {};
+  
   taskResolve: (value: Tasks) => void = () => {};
   taskReject: (reason?: any) => void = () => {};
   constructor(taskDto: TaskDto, level: BaseLevel) {
     this.name = taskDto.name;
     this.level = level;
-    this.delay = taskDto.delay;
+    this.delay.value = taskDto.delay ?? 0;
     this.actionsFlow = taskDto.actionsFlow;
     this.externalInput = taskDto.externalInput;
     this.loadActions(taskDto);
@@ -36,7 +49,7 @@ export abstract class BaseTask {
     if(this.status === "running") {
       this.status = "paused"
       this.level.root?.events.onTaskPaused?.(this);
-      clearTimeout(this.delayTimeout);
+      clearTimeout(this.delay.timeoutId);
     } else {
 
     }
@@ -46,13 +59,11 @@ export abstract class BaseTask {
     if(this.status === "paused") {
       this.status = "running"
       this.level.root?.events.onTaskResumed?.(this);
-      const remainingDelay = 200
-      this.delayTimeout = setTimeout(() => {
+      this.delay.timeoutId = setTimeout(() => {
         
-
+        this.delay.delayPromiseResolve?.(this);
       
-      }, )
-      this.delayResolve(this);
+      }, this.delay.value)
     } else {
   
     }
@@ -106,24 +117,39 @@ export abstract class BaseTask {
     return this;
   }
 
-  private _delay() {
-    return new Promise((resolve) => {
+  private async _delay(delay = this.delay.value) {
+    this.status = "delaying";
+    log(this, "delaying for", delay);
+
+    this.level.root?.events.onTaskStartDelay?.(this);
+    this.delay.start = performance.now();
+    this.delay.delayPromise = new Promise((resolve) => {
       this.status = "delaying";
-      this.delayResolve = resolve;
-      this.delayTimeout = setTimeout(() => {
-        this.delayResolve(this);
-        this.status = "running";
-      }, this.delay)
+      this.delay.delayPromiseResolve = resolve;
+      this.delay.timeoutId = setTimeout(() => {
+        this.delay.delayPromiseResolve?.(this);
+      }, delay)
     });
+    await this.delay.delayPromise;
+    this.delay.finish = performance.now();
+    this.delay.duration = this.delay.finish - this.delay.start;
+    this.delay.totalDuration += this.delay.duration;
+    this.delay.sway = this.delay.duration - delay;
+    this.delay.delayPromise = undefined; // clean
+    this.delay.delayPromiseResolve = undefined; // clean
+    this.delay.timeoutId = undefined; // clean
+    this.status = "running";
+    log(this, "delay done", this.delay.totalDuration, this.delay);
+    this.level.root?.events.onTaskFinishDelay?.(this);
   }
 
-  protected setStarting() {
+  private setStarting() {
     this.status = "running";
     log(this, "starting");
     this.level.root?.events.onTaskStarted?.(this);
   }
 
-  protected setFinished() {
+  private setFinished() {
     this.status = "finished";
     log(this, "finished");
     this.level.root?.events.onTaskFinished?.(this);
@@ -136,19 +162,14 @@ export abstract class BaseTask {
   }
 
   protected async flush(): Promise<Tasks> {
-    if (this.delay) {
-      let t = performance.now();
-      log(this, "delaying");
-      this.level.root?.events.onTaskStartDelay?.(this);
+    if (this.delay.value) {
       await this._delay();
-      log(this, "delay done", performance.now() - t, this.delay);
-      this.level.root?.events.onTaskFinishDelay?.(this);
     }
 
     if (this.externalInput) {
       log(this, "waiting for external input");
       let waitPromise = new Promise((resolve) => {
-        this.status = "waiting";
+         this.status = "waiting";
         this.level.root?.events?.onTaskWaitingForInput?.(this, resolve);    
       });
       await waitPromise;

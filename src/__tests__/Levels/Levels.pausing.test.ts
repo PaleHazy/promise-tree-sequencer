@@ -11,7 +11,7 @@ jest.setTimeout(100000);
 
 
 test.concurrent("pausing tree while running", async () => {
-  
+
 })
 
 test.concurrent("pausing tree while running", async () => {
@@ -26,7 +26,7 @@ test.concurrent("pausing tree while running", async () => {
 
   const onLevelFinishDelay = jest.fn((level) => {
     expect(level.delay.totalDuration).toBeGreaterThanOrEqual(
-      async_one_level_with_delay.levels[0].delay
+      async_one_level_with_delay.levels[0].delay!
     );
     expect(level.status).toBe(LEVEL_RUNNING_STATE);
   });

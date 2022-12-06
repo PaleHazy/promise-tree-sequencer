@@ -54,7 +54,7 @@ test.concurrent("level delays appropriate time", async () => {
       onLevelFinishDelay(level) {
         if (level.name === async_one_level_with_delay.levels[0].name) {
           expect(performance.now() - time).toBeGreaterThanOrEqual(
-            async_one_level_with_delay.levels[0].delay
+            async_one_level_with_delay.levels[0].delay!
           );
           expect(level.status).toBe(LEVEL_RUNNING_STATE);
         }

@@ -26,15 +26,17 @@ interface LevelDelay {
 }
 
 export abstract class BaseLevel {
-  root?: RootLevel; // get set at the end
-  parent?: Levels;
+  readonly root?: RootLevel; // get set at the end
+  readonly parent?: Levels;
   status: LevelStatus = "ready";
   levelsFlow!: FlowModes;
   tasksFlow!: FlowModes;
   levelBuffer: Levels[] = [];
   taskBuffer: Tasks[] = [];
   name: string;
+  metadata: any = {
 
+  };
   duration: number = 0;
   
   private _startTime: number = 0;
@@ -42,8 +44,8 @@ export abstract class BaseLevel {
     value: 0,
     totalDuration: 0,
   }
-  readonly colors = randomContrastColors();
   readonly id = "l_" + nanoid();
+  readonly colors = randomContrastColors();
 
   constructor(dto: LevelDto, options?: Options) {
     this.parent = options?.parent;
@@ -54,14 +56,14 @@ export abstract class BaseLevel {
     this.loadTasks(dto);
   }
 
-  setstarting() {
+  private setstarting() {
     this.status = LEVEL_RUNNING_STATE;
     log(this, "starting");
     this._startTime = performance.now();
     this.root?.events.onLevelStarted?.(this);
   }
 
-  setFinished() {
+  private setFinished() {
     this.status = "finished";
     this.duration = performance.now() - this._startTime;
     this.root?.events.onLevelFinished?.(this);
@@ -82,8 +84,8 @@ export abstract class BaseLevel {
   private async _delay(delay: number = this.delay.value) {
     this.status = "delaying";
     log(this, "delaying for", delay);
-    this.delay.start = performance.now();
     this.root?.events.onLevelStartDelay?.(this);
+    this.delay.start = performance.now();
 
     this.delay.delayPromise = new Promise((resolve) => {
       this.delay.delayPromiseResolve = resolve;
